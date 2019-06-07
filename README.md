@@ -15,14 +15,14 @@ and then have the monsters be .ms files.
 
 ```
 [
-[1,1,1,2,2,1,1,1]
+[1,1,1,0,0,1,1,1]
 [1,0,0,0,0,1,0,1]
 [1,0,1,1,1,0,0,1]
 [1,0,0,1,1,0,1,1]
 [1,1,0,1,1,0,1,1]
 [1,1,0,0,0,0,1,1]
 [1,1,0,0,0,0,1,1]
-[1,1,1,3,3,1,1,1]
+[1,1,1,0,0,1,1,1]
 ]
 ```
 this would be the room file
@@ -30,13 +30,7 @@ this would be the room file
 
 `1 is brick`
 
-`2 is up room`
 
-`3 is down room`
-
-`4 is left room`
-
-`5 is right room`
 
 ### monsters
 monsters would be represented in a `monster_name.ms` file that would read like this
