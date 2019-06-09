@@ -9,7 +9,7 @@ class Head
         @y=y
         @dir=2
         @cur_dir=2
-        @color=Gosu::Color.argb(0xff_ff0adf)
+        @color=Gosu::Color.argb(0xff_00af00)
     end
     def move(obj)
         if @cur_dir%2==1
@@ -75,13 +75,14 @@ class Head
 end
 class Body
     attr_reader :x, :y, :width, :height, :dir
-    def initialize(x,y,dir)
+    def initialize(x,y,dir,obj)
         @width=50
         @height=50
         @x=x
         @y=y
         @dir=dir
-        @color=Gosu::Color.argb(0xff_ff0adf)
+        @color=Gosu::Color.argb(0xff_00af00)
+        obj.board[y/50][x/50]=@dir
     end
     def move(obj)
         if @dir%2==1
@@ -122,30 +123,31 @@ class Snake
         @snake=[]
         @board=[]
         @snake.push(Head.new(x,y))
-        2.times do |hol|
-            @snake.push(Body.new(x-((hol+1)*50),y,2))
-        end
+        
         16.times do |y|
             @board.push([])
             16.times do
                 @board[y].push(0)
             end
         end
+        2.times do |hol|
+            @snake.push(Body.new(x-((hol+1)*50),y,2,self))
+        end
         @board[@snake[1].y/50][@snake[1].x/50]=2
         @board[@snake[2].y/50][@snake[2].x/50]=2
     end
     def add()
         if @snake[-1].dir==1
-            @snake.push(Body.new(@snake[-1].x,@snake[-1].y+50,@snake[-1].dir))
+            @snake.push(Body.new(@snake[-1].x,@snake[-1].y+50,@snake[-1].dir,self))
         end
         if @snake[-1].dir==2
-            @snake.push(Body.new(@snake[-1].x-50,@snake[-1].y,@snake[-1].dir))
+            @snake.push(Body.new(@snake[-1].x-50,@snake[-1].y,@snake[-1].dir,self))
         end
         if @snake[-1].dir==3
-            @snake.push(Body.new(@snake[-1].x,@snake[-1].y-50,@snake[-1].dir))
+            @snake.push(Body.new(@snake[-1].x,@snake[-1].y-50,@snake[-1].dir,self))
         end
         if @snake[-1].dir==4
-            @snake.push(Body.new(@snake[-1].x+50,@snake[-1].y,@snake[-1].dir))
+            @snake.push(Body.new(@snake[-1].x+50,@snake[-1].y,@snake[-1].dir,self))
         end
     end
     def die()
@@ -155,6 +157,23 @@ class Snake
         @snake.each do |obj|
             obj.move(self)
         end
+        if @snake[-1].dir%2==0
+            if @snake[-1].x%50==0
+                if @snake[-1].dir==2
+                    @board[@snake[-1].y/50][(@snake[-1].x/50)-1]=0
+                else
+                    @board[@snake[-1].y/50][(@snake[-1].x/50)+1]=0
+                end
+            end
+        else
+            if @snake[-1].y%50==0
+                if @snake[-1].dir==3
+                    @board[(@snake[-1].y/50)-1][@snake[-1].x/50]=0
+                else
+                    @board[(@snake[-1].y/50)+1][@snake[-1].x/50]=0
+                end
+            end
+        end              
     end
     def test()
         @snake.each do |obj|
