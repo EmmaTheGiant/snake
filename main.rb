@@ -2,7 +2,7 @@ require 'gosu'
 require './lib/obj/snake.rb'
 require './lib/obj/apple.rb'
 class Window < Gosu::Window
-    attr_reader :apple, :snake, :length, :highscore
+    attr_reader :apple, :snake, :length, :highscore, :dev
     def initialize(key,highscore)
         super(800,800)
         @snake=Snake.new(200,100)
@@ -90,11 +90,13 @@ puts ui.length
 puts "highscore"
 puts highscore[0]
 puts highscore[1]
-if ui.apple.score>highscore[0]
+if ui.apple.score>highscore[0]&&ui.dev==false
     file=File.open("./lib/score.txt",'w')
     file.puts(ui.apple.score)
     file.write(ui.length)
     file.close
     puts "new highscore"
+elsif ui.apple.score>highscore[0]&&ui.dev
+    puts "[info] cant add to highscore because of devmode"
 end
 k=gets
