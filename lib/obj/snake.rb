@@ -45,6 +45,7 @@ class Head
     end
     #all of these are the change direction commands
     def up()
+        #this makes sure it cant turn back on itself
         if @cur_dir%2==0
             @dir=1
         end

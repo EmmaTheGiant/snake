@@ -5,7 +5,6 @@ class Window < Gosu::Window
     attr_reader :apple, :snake, :length, :highscore, :dev
     def initialize(key,highscore)
         super(800,800)
-        @snake=Snake.new(200,100)
         @apple=Apple.new()
         @font=Gosu::Font.new(20)
         @song=Gosu::Song.new("./lib/snd/song.mp3")
@@ -14,6 +13,11 @@ class Window < Gosu::Window
             @dev=true
         else
             @dev=false
+        end
+        if @dev
+            @snake=Snake.new(0,0)
+        else
+            @snake=Snake.new(200,100)
         end
         @go=false
         @dev_add=true
